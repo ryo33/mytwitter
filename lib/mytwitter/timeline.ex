@@ -30,8 +30,7 @@ defmodule Mytwitter.Timeline do
     [] <- Map.get(tweet.entities, :hashtags, []),
     [] <- Map.get(tweet.entities, :media, []),
     [] <- Map.get(tweet.entities, :symbols, []),
-    [] <- Map.get(tweet.entities, :urls, []),
-    [] <- Map.get(tweet.entities, :user_mentions, []) do
+    [] <- Map.get(tweet.entities, :urls, []) do
       Mytwitter.Web.Endpoint.broadcast!("timeline", "tweet", tweet)
     else
       _ ->
