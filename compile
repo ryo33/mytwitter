@@ -1,0 +1,5 @@
+brunch build
+
+cd $phoenix_dir
+
+mix "${phoenix_ex}.digest"
