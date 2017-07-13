@@ -2,7 +2,7 @@ import "phoenix_html"
 import socket from "./socket"
 import React from 'react'
 import { connect, Provider } from 'react-redux'
-import { createAction, createReducer } from 'redux-act'
+import { createReducer } from 'redux-act'
 import { render } from 'react-dom'
 import {
   combineReducers, applyMiddleware, createStore
@@ -10,46 +10,69 @@ import {
 import logger from 'redux-logger'
 import { Icon, Container, Header } from 'semantic-ui-react'
 import Timeline from './Timeline'
+import Error from './Error'
+import {
+  addTweet, showError, clearError
+} from './actions'
 
-const addTweet = createAction('add tweet', tweet => tweet)
 const tweets = createReducer({
   [addTweet]: (list, tweet) => list.concat(tweet)
 }, [])
+const error = createReducer({
+  [showError]: (state, error) => error,
+  [clearError]: (state, payload) => null,
+}, null)
 
-const reducer = combineReducers({ tweets })
+const reducer = combineReducers({ tweets, error })
 
 const store = createStore(
   reducer,
   applyMiddleware(logger)
 )
 
-const mapStateToProps = ({ tweets }) => {
-  return { tweets }
+const mapStateToProps = ({ tweets, error }) => {
+  return { tweets, error }
+}
+const mapDispatchToProps = {
+  clearError
 }
 
-const App = connect(mapStateToProps)(Timeline)
-
-render(
-  <Provider store={store}>
+const App = connect(mapStateToProps, mapDispatchToProps)(
+  ({ tweets, error }) => (
     <Container>
       <Header as='h2'>
         <a href="https://github.com/ryo33/mytwitter">
           <Icon name="github" /> GitHub
         </a>
       </Header>
+      <Error error={error} clearError={() => clearError()} />
       <Header as='h2'>Timeline</Header>
-      <App />
+      <Timeline tweets={tweets} />
     </Container>
+  )
+)
+
+render(
+  <Provider store={store}>
+    <App />
   </Provider>,
   document.getElementById('root')
 )
 
 let channel = socket.channel("timeline", {})
 
-socket.onError( () => alert("there was an error with the connection!") )
+
+socket.onError(() => {
+  store.dispatch(showError("there was an error with the connection!"))
+})
 channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { alert("Unable to join", resp) })
+  .receive("ok", resp => {
+    store.dispatch(clearError())
+    console.log("Joined successfully", resp)
+  })
+  .receive("error", resp => {
+    store.dispatch(showError("Unable to join"))
+  })
 
 channel.on("tweet", tweet => {
   store.dispatch(addTweet(tweet))
