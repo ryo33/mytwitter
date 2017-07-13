@@ -26,6 +26,7 @@ defmodule Mytwitter.Timeline do
     nil <- tweet.in_reply_to_status_id_str,
     nil <- tweet.in_reply_to_user_id,
     nil <- tweet.in_reply_to_user_id_str,
+    nil <- tweet.quoted_status,
     [] <- Map.get(tweet.entities, :hashtags, []),
     [] <- Map.get(tweet.entities, :media, []),
     [] <- Map.get(tweet.entities, :symbols, []),
