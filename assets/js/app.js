@@ -8,7 +8,7 @@ import {
   combineReducers, applyMiddleware, createStore
 } from 'redux'
 import logger from 'redux-logger'
-import { Container, Header } from 'semantic-ui-react'
+import { Icon, Container, Header } from 'semantic-ui-react'
 import Timeline from './Timeline'
 
 const addTweet = createAction('add tweet', tweet => tweet)
@@ -32,6 +32,11 @@ const App = connect(mapStateToProps)(Timeline)
 render(
   <Provider store={store}>
     <Container>
+      <Header as='h2'>
+        <a href="https://github.com/ryo33/mytwitter">
+          <Icon name="github" /> GitHub
+        </a>
+      </Header>
       <Header as='h2'>Timeline</Header>
       <App />
     </Container>
@@ -40,9 +45,11 @@ render(
 )
 
 let channel = socket.channel("timeline", {})
+
+socket.onError( () => alert("there was an error with the connection!") )
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
+  .receive("error", resp => { alert("Unable to join", resp) })
 
 channel.on("tweet", tweet => {
   store.dispatch(addTweet(tweet))

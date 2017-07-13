@@ -25,7 +25,12 @@ defmodule Mytwitter.Timeline do
     nil <- tweet.in_reply_to_status_id,
     nil <- tweet.in_reply_to_status_id_str,
     nil <- tweet.in_reply_to_user_id,
-    nil <- tweet.in_reply_to_user_id_str do
+    nil <- tweet.in_reply_to_user_id_str,
+    [] <- Map.get(tweet.entities, :hashtags, []),
+    [] <- Map.get(tweet.entities, :media, []),
+    [] <- Map.get(tweet.entities, :symbols, []),
+    [] <- Map.get(tweet.entities, :urls, []),
+    [] <- Map.get(tweet.entities, :user_mentions, []) do
       Mytwitter.Web.Endpoint.broadcast!("timeline", "tweet", tweet)
     else
       _ ->
