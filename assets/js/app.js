@@ -8,6 +8,7 @@ import {
   combineReducers, applyMiddleware, createStore
 } from 'redux'
 import logger from 'redux-logger'
+import { Container, Header } from 'semantic-ui-react'
 import Timeline from './Timeline'
 
 const addTweet = createAction('add tweet', tweet => tweet)
@@ -30,7 +31,10 @@ const App = connect(mapStateToProps)(Timeline)
 
 render(
   <Provider store={store}>
-    <App />
+    <Container>
+      <Header as='h2'>Timeline</Header>
+      <App />
+    </Container>
   </Provider>,
   document.getElementById('root')
 )
