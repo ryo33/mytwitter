@@ -12,7 +12,7 @@ const User = ({ user, children }) => {
   return (
     <Popup
       trigger={children}
-      position='bottom right'
+      position='bottom left'
       hoverable
       wide
       size='huge'
