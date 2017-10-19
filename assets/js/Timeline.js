@@ -33,7 +33,7 @@ const Timeline = ({ tweets }) => (
             </UserPopup>
             <Comment.Metadata>
               <div>@{tweet.user.screen_name}</div>
-              <div>{tweet.created_at}</div>
+              <div><a href={`https://twitter.com/intent/like?tweet_id=${tweet.id_str}`} target="_blank">{tweet.created_at}</a></div>
             </Comment.Metadata>
             <Comment.Text>{tweet.text}</Comment.Text>
           </Comment.Content>
