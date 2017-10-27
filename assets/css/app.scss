@@ -1,0 +1,21 @@
+/* This file is for your main application css. */
+$solarized_base03: #002b36;
+$solarized_base01: #586e75;
+$solarized_base1:  #93a1a1;
+$solarized_yellow: #b58900;
+html, body {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+body {
+  background: $solarized_base03 !important;
+}
+* {
+  color: $solarized_base1 !important;
+}
+a {
+  color: $solarized_base01 !important;
+}
+a:hover {
+  color: $solarized_yellow !important;
+}

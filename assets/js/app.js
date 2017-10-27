@@ -42,11 +42,10 @@ const App = connect(mapStateToProps, mapDispatchToProps)(
     <Container>
       <Header as='h2'>
         <a href="https://github.com/ryo33/mytwitter">
-          <Icon name="github" /> GitHub
+          <Icon name="github" /> ryo33/mytwitter
         </a>
       </Header>
       <Error error={error} clearError={() => clearError()} />
-      <Header as='h2'>Timeline</Header>
       <Timeline tweets={tweets} />
     </Container>
   )

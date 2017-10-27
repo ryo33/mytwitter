@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css"></link>
   </head>
-
   <body>
     <div class="container">
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
